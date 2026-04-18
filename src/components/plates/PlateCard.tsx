@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { formatThb } from "@/lib/format";
@@ -16,7 +17,7 @@ export function PlateCard({ plate, className }: PlateCardProps) {
   return (
     <Card
       className={cn(
-        "group overflow-hidden border-border/80 transition-shadow hover:shadow-md",
+        "group cursor-pointer overflow-hidden border-border/80 transition-shadow hover:shadow-md",
         className
       )}
     >
@@ -50,16 +51,19 @@ export function PlateCard({ plate, className }: PlateCardProps) {
           {PLATE_CATEGORY_LABELS[plate.category]}
         </p>
       </CardContent>
-      <CardFooter className="flex items-center justify-between border-t border-border/60 bg-muted/20 px-5 py-3">
+      <CardFooter className="flex flex-col gap-3 border-t border-border/60 bg-muted/20 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
         <span className="text-sm font-semibold tabular-nums text-foreground">
           {formatThb(plate.price)}
         </span>
-        <Link
-          href={`/catalog/${plate.id}`}
-          className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-        >
-          รายละเอียด
-        </Link>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <AddToCartButton plate={plate} />
+          <Link
+            href={`/catalog/${plate.id}`}
+            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+          >
+            รายละเอียด
+          </Link>
+        </div>
       </CardFooter>
     </Card>
   );

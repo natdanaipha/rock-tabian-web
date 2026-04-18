@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,17 +101,23 @@ export default async function PlateDetailPage({
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted-foreground">
               {plate.isAvailable
-                ? "กดปุ่มด้านล่างเพื่อเริ่มกรอกข้อมูลจองและแนบหลักฐานโอน"
+                ? "ใส่ตะกร้าเพื่อรวมหลายป้าย หรือกดจองเพื่อกรอกข้อมูลทันที (เดโม)"
                 : "ป้ายนี้ถูกจองแล้ว — เลือกทะเบียนอื่นได้จากคลัง"}
             </p>
-            {plate.isAvailable ? (
-              <Link
-                href={`/booking/${plate.id}`}
-                className={cn(buttonVariants({ size: "lg" }), "justify-center")}
-              >
-                จองทะเบียนนี้
-              </Link>
-            ) : null}
+            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+              <AddToCartButton plate={plate} size="lg" className="w-full sm:w-auto" />
+              {plate.isAvailable ? (
+                <Link
+                  href={`/booking/${plate.id}`}
+                  className={cn(
+                    buttonVariants({ size: "lg" }),
+                    "inline-flex w-full justify-center sm:w-auto"
+                  )}
+                >
+                  จองทะเบียนนี้
+                </Link>
+              ) : null}
+            </div>
           </div>
         </CardContent>
       </Card>

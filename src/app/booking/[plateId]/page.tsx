@@ -24,10 +24,14 @@ export async function generateMetadata({
 
 export default async function BookingPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ plateId: string }>;
+  searchParams: Promise<{ from?: string }>;
 }) {
   const { plateId } = await params;
+  const { from: fromParam } = await searchParams;
+  const fromCart = fromParam === "cart";
   const plate = getPlateById(plateId);
   if (!plate) notFound();
   if (!plate.isAvailable) {
@@ -48,17 +52,22 @@ export default async function BookingPage({
   }
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-10 sm:px-6">
-      <div className="mb-6 text-sm text-muted-foreground">
+    <div className="mx-auto max-w-xl space-y-8 px-4 py-10 sm:px-6">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+        {fromCart ? (
+          <Link href="/cart" className="hover:text-foreground">
+            ← กลับตะกร้า
+          </Link>
+        ) : null}
         <Link href={`/catalog/${plate.id}`} className="hover:text-foreground">
-          ← กลับรายละเอียดป้าย
+          {fromCart ? "รายละเอียดป้าย" : "← กลับรายละเอียดป้าย"}
         </Link>
       </div>
 
       <Card className="border-border/80">
         <CardHeader>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <CardTitle>จองทะเบียน</CardTitle>
+            <CardTitle>1. จองทะเบียน</CardTitle>
             <Badge variant="secondary">ตัวอย่างฟอร์ม</Badge>
           </div>
           <CardDescription>
@@ -72,7 +81,7 @@ export default async function BookingPage({
             </p>
             <p className="mt-1 text-sm text-muted-foreground">{plate.province}</p>
             <p className="mt-2 text-sm font-medium tabular-nums">
-              ยอดชำระ {formatThb(plate.price)}
+              ยอดที่ต้องชำระ {formatThb(plate.price)}
             </p>
           </div>
 
@@ -91,12 +100,39 @@ export default async function BookingPage({
             </div>
             <Separator />
             <p className="text-xs text-muted-foreground">
-              หลังโอนเงิน คุณจะอัปโหลดสลิปในขั้นตอนถัดไป (ยังไม่เปิดใช้ในเดโม)
+              หลังส่งคำขอจองแล้ว ให้ดำเนินการชำระและแนบสลิปในขั้นที่ 2 ด้านล่าง
             </p>
             <Button type="button" className="w-full" disabled>
               ส่งคำขอจอง (เดโม)
             </Button>
           </form>
+        </CardContent>
+      </Card>
+
+      <Card className="border-border/80">
+        <CardHeader>
+          <CardTitle>2. ชำระเงินและแนบสลิป</CardTitle>
+          <CardDescription>
+            อัปโหลดหลักฐานการโอนตามยอดด้านบน — ระบบจะตรวจว่าป้ายยังว่างและยอดถูกต้องเมื่อเชื่อม API (เดโม)
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="payment-slip">ไฟล์สลิป (รูปหรือ PDF)</Label>
+            <Input
+              id="payment-slip"
+              name="slip"
+              type="file"
+              accept="image/*,.pdf,application/pdf"
+              className="cursor-pointer border-dashed pt-1.5 file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary"
+            />
+          </div>
+          <p className="text-xs text-muted-foreground">
+            โอนแล้วแนบสลิปภายในเวลาที่กำหนด — คำสั่งซื้อจะสมบูรณ์หลังตรวจสลิปและสต็อกป้าย
+          </p>
+          <Button type="button" className="w-full" disabled>
+            ยืนยันการชำระและสลิป (เดโม)
+          </Button>
         </CardContent>
       </Card>
     </div>

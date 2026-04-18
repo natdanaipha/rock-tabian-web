@@ -15,6 +15,7 @@ import {
 const links = [
   { href: "/", label: "หน้าแรก" },
   { href: "/catalog", label: "ค้นหาทะเบียน" },
+  { href: "/cart", label: "ตะกร้า" },
   { href: "/guide", label: "วิธีจอง" },
   { href: "/contact", label: "ติดต่อ" },
 ];
@@ -30,6 +31,9 @@ export function MobileNav() {
         pathname.startsWith("/catalog/") ||
         pathname.startsWith("/booking/")
       );
+    }
+    if (href === "/cart") {
+      return pathname === "/cart" || pathname === "/booking/batch";
     }
     return pathname === href || pathname.startsWith(`${href}/`);
   }

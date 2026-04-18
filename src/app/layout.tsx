@@ -3,6 +3,7 @@ import { Geist_Mono, Noto_Sans_Thai } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Providers } from "@/app/providers";
 
 import "./globals.css";
 
@@ -37,9 +38,11 @@ export default function RootLayout({
       className={`${notoThai.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <Providers>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </Providers>
       </body>
     </html>
   );
