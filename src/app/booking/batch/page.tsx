@@ -4,7 +4,7 @@ import { BookingBatchPageClient } from "@/components/cart/booking-batch-page-cli
 
 export const metadata: Metadata = {
   title: "จองทะเบียนทั้งหมดในตะกร้า",
-  description: "จอง license plate item ทุกรายการในตะกร้าในครั้งเดียว",
+  description: "จอง ทะเบียน ทุกรายการในตะกร้าในครั้งเดียว",
 };
 
 export default function BookingBatchPage() {

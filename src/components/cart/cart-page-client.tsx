@@ -28,7 +28,7 @@ export function CartPageClient() {
           ตะกร้า
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          ยังไม่มี license plate item ในตะกร้า — หยิบจากคลังทะเบียนได้เลย
+          ยังไม่มี ทะเบียน ในตะกร้า — หยิบจากคลังทะเบียนได้เลย
         </p>
         <Link
           href="/catalog"
