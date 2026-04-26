@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { formatThb } from "@/lib/format";
 import type { LicensePlate } from "@/lib/types/plate";
@@ -17,7 +18,7 @@ export function PlateCard({ plate, className }: PlateCardProps) {
   return (
     <Card
       className={cn(
-        "group cursor-pointer overflow-hidden border-border/80 transition-shadow hover:shadow-md",
+        "overflow-hidden border-border/80 transition-shadow hover:shadow-md",
         className
       )}
     >
@@ -57,12 +58,14 @@ export function PlateCard({ plate, className }: PlateCardProps) {
         </span>
         <div className="flex flex-wrap items-center justify-end gap-2">
           <AddToCartButton plate={plate} />
-          <Link
-            href={`/catalog/${plate.id}`}
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-          >
-            รายละเอียด
-          </Link>
+          {plate.isAvailable ? (
+            <Link
+              href={`/booking/${plate.id}`}
+              className={cn(buttonVariants({ size: "sm" }), "shrink-0")}
+            >
+              จองทะเบียน
+            </Link>
+          ) : null}
         </div>
       </CardFooter>
     </Card>

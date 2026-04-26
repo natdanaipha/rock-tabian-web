@@ -129,3 +129,25 @@
     @apply font-sans;
   }
 }
+
+/* ลูกศรตัวกรองหน้าคลัง — เคลื่อนไหวเล็กน้อยเพื่อบอกว่ากดขยายได้ (เคารพ reduced motion) */
+@keyframes catalog-chevron-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+@layer utilities {
+  .animate-catalog-chevron-hint {
+    animation: catalog-chevron-hint 1.75s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-catalog-chevron-hint {
+      animation: none;
+    }
+  }
+}
